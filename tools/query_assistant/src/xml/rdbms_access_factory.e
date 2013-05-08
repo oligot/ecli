@@ -240,7 +240,7 @@ feature {NONE} -- Implementation
 --			parameter : XM_ELEMENT
 		do
 			from
-				parameter_cursor := attached_ (element.new_cursor)
+				parameter_cursor := element.new_cursor.as_attached
 				parameter_cursor.start
 			until
 				parameter_cursor.off
@@ -267,7 +267,7 @@ feature {NONE} -- Implementation
 		do
 --			if attached element.new_cursor as parameter_cursor then
 				from
-					parameter_cursor := attached_ (element.new_cursor)
+					parameter_cursor := element.new_cursor.as_attached
 					parameter_cursor.start
 				until
 					parameter_cursor.off
@@ -278,7 +278,7 @@ feature {NONE} -- Implementation
 						if attached last_parameter as l_param then
 							if parameter_map.has (l_param.name) then
 								is_error := True
-								error_handler.report_duplicate_element ("?", l_param.name, attached_ (element.name))
+								error_handler.report_duplicate_element ("?", l_param.name, element.name.as_attached)
 							else
 								parameter_map.force (l_param, l_param.name)
 							end
@@ -287,13 +287,6 @@ feature {NONE} -- Implementation
 					parameter_cursor.forth
 				end
 --			end
-		end
-
-	attached_ (a : detachable ANY) : attached like a
-		do
-			check attached a as l_result then
-				Result := l_result
-			end
 		end
 
 	create_parameter (element : XM_ELEMENT; is_template : BOOLEAN)
@@ -314,27 +307,30 @@ feature {NONE} -- Implementation
 			if element.has_attribute_by_name (t_name) then
 				l_name := element.attribute_by_name (t_name).value.string
 			else
-				error_handler.report_missing_attribute (last_access.name, T_name, attached_ (element.name))
+				error_handler.report_missing_attribute (last_access.name, T_name, element.name.as_attached)
 				is_error := True
 			end
 			if not is_error and then parameter_map /= Void and then parameter_map.has (l_name) then
 				template := parameter_map.item (l_name)
 				create_parameter_from_template (element, template)
 			elseif not is_error then
-				if element.has_attribute_by_name (t_table) then
-					l_table := element.attribute_by_name (t_table).value.string
-				else
-					error_handler.report_missing_attribute (last_access.name, t_table, attached_ (element.name))
-					is_error := True
-				end
 				if element.has_attribute_by_name (t_column) then
 					l_column := element.attribute_by_name (t_column).value.string
 				else
-					error_handler.report_missing_attribute (last_access.name, T_column, attached_ (element.name))
+					error_handler.report_missing_attribute (last_access.name, T_column, element.name.as_attached)
+					is_error := True
+				end
+				if element.has_attribute_by_name (t_table) then
+					l_table := element.attribute_by_name (t_table).value.string
+					create l_reference.make (l_table, l_column)
+				elseif element.has_attribute_by_name (t_procedure) then
+					l_table := element.attribute_by_name (t_procedure).value.string
+					create {PROCEDURE_REFERENCE_COLUMN} l_reference.make (l_table, l_column)
+				else
+					error_handler.report_missing_attributes (last_access.name, t_table, t_procedure, element.name.as_attached)
 					is_error := True
 				end
 				if l_name.count > 0 and then l_table.count > 0 and then l_column.count > 0 then
-					create l_reference.make (l_table, l_column)
 					create last_parameter.make (l_name, l_reference, maximum_length)
 					if element.has_attribute_by_name (t_sample) then
 						last_parameter.set_sample (element.attribute_by_name (t_sample).value.string)
@@ -374,7 +370,7 @@ feature {NONE} -- Implementation
 				is_error := True
 			end
 			if l_name /= Void and then l_table /= Void and then l_column /= Void then
-				create l_reference.make (l_table, l_column)
+				l_reference := template.reference_column.twin
 				create last_parameter.make (l_name, l_reference, maximum_length)
 				if element.has_attribute_by_name (t_sample) then
 					last_parameter.set_sample (element.attribute_by_name (t_sample).value.string)

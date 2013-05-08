@@ -1,3 +1,6 @@
+note
+	description: "Application that help migrate towards voidsafety."
+
 class
 	VSMIG_SUPPORT
 
@@ -165,7 +168,6 @@ feature -- Access
 	sql_p : ECLI_SQL_PARSER
 	str : ECLI_STRING_ROUTINES
 
---	ds : ECLI_DATASET_DESCRIPTION
 
 	int: ECLI_INTEGER
 

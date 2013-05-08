@@ -1,11 +1,6 @@
 note
 
-	description:
-		"[
-			Cursors over SQL query result set.
-			Feature `start' executes the query (`sql' synonym of `definition'), then fetches the first row if any
-			Starting iteration creates `results' object through `create_buffers'.
-		]"
+	description: "Cursors over SQL query result set. Starting iteration creates `results' object through `create_buffers'."
 
 	library: "ECLI : Eiffel Call Level Interface (ODBC) Library. Project SAFE."
 	Copyright: "Copyright (c) 2001-2012, Paul G. Crismer and others"
@@ -18,8 +13,7 @@ inherit
 
 	ECLI_QUERY
 		redefine
-			real_execution,
-			initialize
+			real_execution
 		end
 
 feature -- Status report
@@ -48,6 +42,24 @@ feature -- Cursor movement
 				execute
 				must_start := True
 			else
+				-- is_executed
+				if not off then
+					-- was inside result-set
+					go_after
+				end
+				if before then
+					-- prevent reexecuting the query twice
+					must_start := true
+				else
+					check after: after end
+					-- finished with last result-set
+					-- must re-execute with new? parameters, to get maybe fresh new resultset.
+					if parameters_count > 0 and then not bound_parameters then
+						bind_parameters
+					end
+					execute
+					must_start := True
+				end
 				if not off then
 					go_after
 				end
@@ -75,11 +87,6 @@ feature -- Cursor movement
 		end
 
 feature {NONE} -- Implementation
-
-	initialize
-		do
-			create_buffers
-		end
 
 	create_buffers
 			-- create all ECLI_VALUE objects

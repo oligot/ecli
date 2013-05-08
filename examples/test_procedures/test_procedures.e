@@ -271,23 +271,16 @@ feature --  Basic operations
 
 			create args
 			if args.argument_count >= 3 then
-				data_source_name := attached_string (args.argument (1))
-				user_name := attached_string (args.argument (2))
-				password := attached_string (args.argument (3))
+				data_source_name := args.argument (1)
+				user_name := args.argument (2)
+				password := args.argument (3)
 				arguments_ok := True
 				if args.argument_count > 3 then
-					trace_file_name := attached_string (args.argument (4))
+					trace_file_name := args.argument (4)
 				end
 			end
 		ensure
 			ok: arguments_ok implies (data_source_name /= Void and user_name /= Void and password /= Void)
-		end
-
-	attached_string (s : detachable STRING) : STRING
-		do
-			check	attached s as l_s then
-				Result := l_s.twin
-			end
 		end
 
 	print_usage is

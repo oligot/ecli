@@ -6,7 +6,7 @@
 
 
 		library: "ECLI : Eiffel Call Level Interface (ODBC) Library. Project SAFE."
-		copyright: "Copyright (c) 2001-2006, Paul G. Crismer and others"
+		Copyright: "Copyright (c) 2001-2012, Paul G. Crismer and others"
 		license: "Eiffel Forum License v2 (see forum.txt)"
 		date: "$Date$"
 
@@ -16,7 +16,6 @@
 	<option unless="${DEBUG}">
 		<option name="assertion" value="none"/>
 		<option name="garbage_collector" value="none"/>
-		<option name="finalize" value="true" unless="${GOBO_EIFFEL}=ve"/>
 	</option>
 	<option if="${DEBUG}">
 		<option name="assertion" value="all"/>
@@ -42,7 +41,8 @@
 	<option name="void_safety" value="on_demand" if="${VOIDCONFIDENT}=true"/>
 	<option name="attached_by_default" value="true" if="${VOIDCONFIDENT}=true"/>
 	
-	<mount location="${ECLI}/library-voidconfident.xace" if="${VOIDCONFIDENT}=true"/>
+	<mount location="${ECLI}/library-confident.xace" if="${VOIDCONFIDENT}=true"/>
 	<mount location="${ECLI}/library.xace" unless="${VOIDCONFIDENT}=true"/>
+	<mount location="${GOBO}/library/xml/library.xace"/>
 
 </system>
