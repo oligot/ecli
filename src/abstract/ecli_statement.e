@@ -88,7 +88,7 @@ feature {} -- Initialization
 			end
 
 			--| statement handle
-			set_status ("ecli_c_allocate_statement", ecli_c_allocate_statement (session.handle, ext_handle.handle))
+			set_status_without_report ("ecli_c_allocate_statement", ecli_c_allocate_statement (session.handle, ext_handle.handle))
 			handle := ext_handle.item
 
 			--| name to position map table for parameters

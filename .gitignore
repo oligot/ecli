@@ -5,8 +5,8 @@ compile_ise.ecf
 *.exe
 ecli_*.obj
 ecli_*.lib
-ise.ecf
-ge.xace
+*.orig
+*.bak
 *.orig
 *.bak
 clisql
