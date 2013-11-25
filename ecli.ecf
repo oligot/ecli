@@ -58,11 +58,11 @@
 			</condition>
 		</library>
 		
-		<library name="gobo-core" location="$GOBO\library\gobo-core.ecf"/>
-		<library name="gobo-kernel" location="$GOBO\library\kernel\library.ecf"/>
-		<library name="gobo-math" location="$GOBO\library\math\gobo-math.ecf"/>
-		<library name="gobo-structure" location="$GOBO\library\structure\gobo-structure.ecf"/>
-		<library name="gobo-time" location="$GOBO\library\time\gobo-time.ecf"/>
+		<library name="gobo-core" location="$EIFFEL_LIBRARY\gobo-ecf\ecf\gobo-core.ecf" readonly="true"/>
+		<library name="gobo-kernel" location="$EIFFEL_LIBRARY\gobo-ecf\ecf\gobo-kernel.ecf" readonly="true"/>
+		<library name="gobo-math" location="$EIFFEL_LIBRARY\gobo-ecf\ecf\gobo-math.ecf" readonly="true"/>
+		<library name="gobo-structure" location="$EIFFEL_LIBRARY\gobo-ecf\ecf\gobo-structure.ecf" readonly="true"/>
+		<library name="gobo-time" location="$EIFFEL_LIBRARY\gobo-ecf\ecf\gobo-time.ecf" readonly="true"/>
 		
 		<library name="safe-kernel-external" location="$SAFE_KERNEL\safe-kernel-external.ecf"/>
 
