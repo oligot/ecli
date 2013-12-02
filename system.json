@@ -1,7 +1,7 @@
 {
   "name": "safe-ecli",
   "description": "Eiffel Library to ISO/CLI (Call Level Interface) compatible DB systems",
-  "version": "2.5.0-alpha",
+  "version": "2.5.0-beta",
   "engines": {
     "ise": ">=7.0.x",
     "ge": ">=3.10.x"
